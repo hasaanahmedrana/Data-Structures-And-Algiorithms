@@ -1,3 +1,4 @@
+from collections import deque
 '''Binary Tree: A tree in which each node has at most two children.
 - Strict/Proper/Full Binary Tree: A binary tree in which each node has either 0 or 2 children
             .or
@@ -215,6 +216,24 @@ class BinarySearchTree:
         if not self.root: return None
         self._postorder(self.root)
         print()
+    
+    def display_level_order(self):
+        print()
+        root = self.root
+        if not root: return
+        q = deque([(root,1)])
+        self._levelorder(q)
+        print()
+
+    def _levelorder(self,q):
+        if not q: return;
+        node, level = q.popleft()
+        print(f'Node: {node.data}, Level: {level}')
+        if node.left:
+            q.append((node.left, level+1))
+        if node.right:
+            q.append((node.right, level+1))
+        self._levelorder(q)
 
 
 if __name__ == '__main__':
@@ -242,6 +261,8 @@ if __name__ == '__main__':
     bst.display_in_order()
     print('Post-order Sequence:',end=' ')
     bst.display_post_order()
+    print('Level-order Sequence:',end=' ')
+    bst.display_level_order()
     print('Total Elements Number:', bst.total_elements())
     print(bst.delete(-1)) #Deleting leaf node
     bst.display_in_order() #verify deletion by checking in order sequence
